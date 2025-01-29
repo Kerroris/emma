@@ -1,0 +1,43 @@
+<ion-content class="ion-text-center">
+  <div class="login-container">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          Iniciar Sesión
+          <p class="text-mini">Validación Básica de Inputs</p>
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <form (submit)="login($event)">
+          <ion-item>
+            <ion-label position="floating">Username</ion-label>
+            <ion-input type="text" (ionInput)="validateForm()" [(ngModel)]="username" name="username"
+              required></ion-input>
+          </ion-item>
+          <ion-grid>
+            <ion-row>
+              <!-- Columna del input de contraseña -->
+              <ion-col size="10" size-md="11">
+                <ion-item>
+                  <ion-label position="floating">Password</ion-label>
+                  <ion-input [type]="showPassword ? 'text' : 'password'" (ionInput)="validateForm()"
+                    [(ngModel)]="password" name="password" required></ion-input>
+                </ion-item>
+              </ion-col>
+
+              <!-- Columna del icono -->
+              <ion-col size="1" size-md="1" class="ion-text-center">
+                <ion-icon class="icon-size" [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+                  (click)="togglePasswordVisibility()" size="small"></ion-icon>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          
+          <!-- boton login  -->
+
+          <ion-button [disabled]="!isValid" expand="full" type="submit">Login</ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
