@@ -1,0 +1,13 @@
+<ion-content >
+  <h1>Practica de clase Hello Word</h1>
+
+  <ion-button color="dark" (click)="mostrarTexto()">
+    Presioname 
+    <ion-icon name="logo-firefox"></ion-icon>
+  </ion-button>
+  <ion-grid *ngIf="texto">
+    <ion-card class="container_text_color">
+      "Hi, ¡Cervantes Yañez Hector!, well done!!."
+    </ion-card>
+  </ion-grid>
+</ion-content>
