@@ -32,10 +32,16 @@
               </ion-col>
             </ion-row>
           </ion-grid>
-          
+          <br>
           <!-- boton login  -->
-
-          <ion-button [disabled]="!isValid" expand="full" type="submit">Login</ion-button>
+          <button [disabled]="!isValid" class="btn_login" type="submit">
+            Login
+            <ion-icon name="lock-open-outline"></ion-icon>
+          </button>
+          <a [routerLink]="'/navbar/registro'" class="btn_registro" type="button">
+            Registro
+            <ion-icon name="pencil-outline"></ion-icon>
+          </a>
         </form>
       </ion-card-content>
     </ion-card>

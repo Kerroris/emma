@@ -22,6 +22,10 @@ const routes: Routes = [
   {
     path: 'navbar',
     loadChildren: () => import('./page/navbar/navbar.module').then( m => m.NavbarPageModule)
+  },
+  {
+    path: 'registro',
+    loadChildren: () => import('./page/registro/registro.module').then( m => m.RegistroPageModule)
   }
 ];
 

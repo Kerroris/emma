@@ -1,23 +1,48 @@
 .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    // height: 100vh;
-    padding: 20px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // height: 100vh;
+  padding: 20px;
+}
+
+ion-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.text-mini {
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.308);
+}
+
+.icon-size {
+  margin-top: 2rem;
+  cursor: pointer;
+}
+
+.btn_login {
+  background-color: rgb(6, 201, 129);
+  margin: 2px;
+  padding: 15px;
+  width: auto;
+  border-radius: 5px;
+  color: black;
+
+  &:disabled {
+    background-color: rgba(6, 201, 129, 0.375);
+    color: rgba(0, 0, 0, 0.486);
   }
-  
-  ion-card {
-    width: 100%;
-    max-width: 400px; 
-    padding: 20px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); 
-  }
-  .text-mini{
-    font-size: 13px;
-    color: rgba(0, 0, 0, 0.308);
-  }
-  
-  .icon-size{
-    margin-top: 2rem;
-    cursor: pointer;
-  }
+}
+
+.btn_registro {
+  background-color: rgb(6, 156, 201);
+  margin: 2px 30px;
+  padding: 15px;
+  width: auto;
+  border-radius: 5px;
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+}

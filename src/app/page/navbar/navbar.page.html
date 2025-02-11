@@ -1,11 +1,20 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Apl. Web Progresivas</ion-title>
+    <ion-title>
+      <ion-button color="none">
+        <img src="assets/img/logoUTEQ.png" alt="Logo" class="logo_UTEQ" loading="lazy">
+      </ion-button>
+    </ion-title>
     <!-- ---  -->
     <ion-buttons class="menu-button" slot="end">
-      <!-- <ion-searchbar placeholder="Buscar..." class="custom-search-bar"></ion-searchbar> -->
-      <ion-button [routerLink]="'./home'">home</ion-button>
-      <ion-button [routerLink]="'./login'">Login</ion-button>
+      <ion-button [routerLink]="'./home'">
+        home
+        <img src="assets/img/home2.png" alt="Logo" class="logo_img_nav" loading="lazy">
+      </ion-button>
+      <ion-button [routerLink]="'./login'">
+        Login
+        <img src="assets/img/login.png" alt="Logo" class="logo_img_nav" loading="lazy">
+      </ion-button>
     </ion-buttons>
     <!-- ---  -->
   </ion-toolbar>
