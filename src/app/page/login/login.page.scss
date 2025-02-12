@@ -23,26 +23,3 @@ ion-card {
   cursor: pointer;
 }
 
-.btn_login {
-  background-color: rgb(6, 201, 129);
-  margin: 2px;
-  padding: 15px;
-  width: auto;
-  border-radius: 5px;
-  color: black;
-
-  &:disabled {
-    background-color: rgba(6, 201, 129, 0.375);
-    color: rgba(0, 0, 0, 0.486);
-  }
-}
-
-.btn_registro {
-  background-color: rgb(6, 156, 201);
-  margin: 2px 30px;
-  padding: 15px;
-  width: auto;
-  border-radius: 5px;
-  text-decoration: none;
-  color: rgb(255, 255, 255);
-}
