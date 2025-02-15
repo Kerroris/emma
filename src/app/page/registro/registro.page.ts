@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoadingController, AlertController } from '@ionic/angular';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-registro',
@@ -13,7 +14,7 @@ export class RegistroPage implements OnInit {
   registerForm: FormGroup;
   loading!: HTMLIonLoadingElement;
   showPassword: boolean = false;
-  
+
   birthDateError: boolean = false;
   birthDateValid: boolean = false;
 
@@ -21,7 +22,8 @@ export class RegistroPage implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private loadingController: LoadingController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private authService: AuthService
   ) {
     this.registerForm = this.formBuilder.group(
       {
@@ -110,25 +112,37 @@ export class RegistroPage implements OnInit {
       return;
     }
 
-    // let password = this.registerForm.get('password')?.value;
-    // let email = this.registerForm.get('email')?.value;
-    // let username = this.registerForm.get('username')?.value;
-    // console.log(password, email, username);
-
     this.loading = await this.loadingController.create({
       message: 'Registrando...',
     });
     await this.loading.present();
 
-    setTimeout(async () => {
-      await this.loading.dismiss();
-      const alert = await this.alertController.create({
-        header: 'Registro Exitoso',
-        message: 'Tu cuenta ha sido creada correctamente.',
-        buttons: ['OK'],
-      });
-      await alert.present();
-      this.router.navigate(['/navbar/login']);
-    }, 2000);
+    // Obtener datos del formulario
+    const formData = this.registerForm.value;
+
+    this.authService.register(formData).subscribe({
+      next: async (response) => {
+        await this.loading.dismiss();
+        // console.log(response);
+        const alert = await this.alertController.create({
+          header: 'Registro Exitoso',
+          message: 'Tu cuenta ha sido creada correctamente.',
+          buttons: ['OK'],
+        });
+        await alert.present();
+        this.router.navigate(['/navbar/login']);
+      },
+      error: async (err) => {
+        // console.log(err.error?.message);
+        await this.loading.dismiss();
+        let error = err.error?.message;
+        const alert = await this.alertController.create({
+          header: 'Error en el registro',
+          message: error,
+          buttons: ['OK'],
+        });
+        await alert.present();
+      },
+    });
   }
 }

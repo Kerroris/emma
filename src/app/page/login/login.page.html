@@ -1,10 +1,18 @@
+<!-- // ----- 
+// Cervantes Yañez Hector -IDGS08
+// -----  -->
 <ion-content class="ion-text-center">
-  <div class="login-container">
+  
+  <!-- Splash Screen -->
+  <app-sphash *ngIf="showSplash"></app-sphash>
+
+
+  <div *ngIf="!showSplash"  class="login-container">
     <ion-card>
       <ion-card-header>
         <ion-card-title>
           Iniciar Sesión
-          <p class="text-mini">Validación Básica de Inputs</p>
+          <p class="text-mini">Validacdión Básica de Inputs</p>
         </ion-card-title>
       </ion-card-header>
       <ion-card-content>
@@ -46,5 +54,4 @@
       </ion-card-content>
     </ion-card>
   </div>
-
 </ion-content>
