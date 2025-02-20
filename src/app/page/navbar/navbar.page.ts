@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -7,10 +8,24 @@ import { Component, OnInit } from '@angular/core';
   standalone: false,
 })
 export class NavbarPage implements OnInit {
+  autenticado = false;
+  userRole: string | null = null;
 
-  constructor() { }
+  constructor(public authService: AuthService) {
+    this.authService.autenticado$.subscribe((auth) => {
+      this.autenticado = auth;
+    });
+    this.authService.currentUserRole$.subscribe((role) => {
+      this.userRole = role;
+    });
+  } 
 
   ngOnInit() {
   }
+  
+  logout() {
+    this.authService.logout();
+  }
+  
 
 }

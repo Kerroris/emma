@@ -1,17 +1,22 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      <!-- <ion-button color="none">
-        <img src="assets/icon/logo.png" alt="Logo" class="logo_UTEQ" loading="lazy">
-      </ion-button> -->
     </ion-title>
     <!-- ---  -->
     <ion-buttons class="menu-button" slot="end">
-      <!-- <ion-button [routerLink]="'./home'">
-        home
-        <img src="assets/img/home2.png" alt="Logo" class="logo_img_nav" loading="lazy">
-      </ion-button> -->
-      <ion-button [routerLink]="'./login'">
+      <ion-button [routerLink]="'./datos'" *ngIf="autenticado">
+        Mis datos
+        <ion-icon name="person-circle-outline"></ion-icon>
+      </ion-button>
+      <ion-button  [routerLink]="'./home'" *ngIf="autenticado &&  userRole === 'admin'">
+        Usuarios
+        <ion-icon name="people-circle-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="logout()" *ngIf="autenticado">
+        Logout
+        <ion-icon name="arrow-forward-outline"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="!autenticado" [routerLink]="'./login'">
         Login
         <img src="assets/img/login.png" alt="Logo" class="logo_img_nav" loading="lazy">
       </ion-button>

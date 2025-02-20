@@ -1,33 +1,45 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { CommonModule, Time } from '@angular/common';
+import { IonicModule } from '@ionic/angular';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { LoadingController, AlertController } from '@ionic/angular';
-import { AuthService } from '../../services/auth.service';
-
+import { AuthService } from 'src/app/services/auth.service';
 import * as CryptoJS from 'crypto-js';
+import { LoadingController, AlertController } from '@ionic/angular';
+
+// para los forms
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-registro',
-  templateUrl: './registro.page.html',
-  styleUrls: ['./registro.page.scss'],
-  standalone: false,
+  selector: 'app-edit-user-modal',
+  templateUrl: './edit-user-modal.component.html',
+  styleUrls: ['./edit-user-modal.component.scss'],
+  standalone: true, // Si usando componentes independientes (standalone)
+  imports: [IonicModule, CommonModule, ReactiveFormsModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA], //esquema personalizado
 })
-export class RegistroPage implements OnInit {
-  registerForm: FormGroup;
-  loading!: HTMLIonLoadingElement;
-  showPassword: boolean = false;
+export class EditUserModalComponent {
+  @Input() usuario: any;
+  @Input() idUser: any;
+  @Input() userRegistered!: () => void;
+  
   private secretKey = 'MiClaveSecreta123';
+  // ejecurat una funcion de la page donde llama este componente
+  registerForm: FormGroup;
+  showPassword: boolean = false;
+  contraDes: string = '';
+  birthDateFormat: string = '';
   birthDateError: boolean = false;
   birthDateValid: boolean = false;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private router: Router,
-    private loadingController: LoadingController,
+    private modalController: ModalController,
+    private authService: AuthService,
     private alertController: AlertController,
-    private authService: AuthService
+    private fb: FormBuilder
   ) {
-    this.registerForm = this.formBuilder.group(
+    this.registerForm = this.fb.group(
       {
         email: [
           '',
@@ -51,7 +63,13 @@ export class RegistroPage implements OnInit {
   }
 
   ngOnInit() {
-    // al iniciar hace q el imput de nombre lo transforme a Mayusculas
+    // Aseguramos que la fecha de nacimiento se maneje correctamente
+    const timestamp = this.usuario.birthDate;
+    if (timestamp) {
+      const date = new Date(timestamp.seconds * 1000); // Convertimos el timestamp de Firebase a objeto Date
+      this.birthDateFormat = this.formatDate(date); // Formateamos la fecha antes de asignarla
+    }
+
     this.registerForm.get('fullName')?.valueChanges.subscribe((value) => {
       if (value) {
         this.registerForm
@@ -59,11 +77,22 @@ export class RegistroPage implements OnInit {
           ?.setValue(value.toUpperCase(), { emitEvent: false });
       }
     });
-    this.validateBirthDate();
+    setTimeout(() => {
+      this.validateBirthDate();
+    }, 2000);
+    this.contraDes = this.decryptData(this.usuario.password);
   }
 
-  togglePasswordVisibility() {
-    this.showPassword = !this.showPassword;
+  // Función para formatear la fecha en el formato correcto
+  formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Aseguramos que tenga 2 dígitos
+    const day = date.getDate().toString().padStart(2, '0'); // Aseguramos que tenga 2 dígitos
+    return `${year}-${month}-${day}`; // Formato 'YYYY-MM-DD'
+  }
+
+  dismiss() {
+    this.modalController.dismiss();
   }
 
   removeSpaces(field: string) {
@@ -73,6 +102,10 @@ export class RegistroPage implements OnInit {
         .get(field)
         ?.setValue(value.replace(/\s/g, ''), { emitEvent: false });
     }
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 
   validateBirthDate() {
@@ -109,64 +142,44 @@ export class RegistroPage implements OnInit {
     }
   }
 
-  async register() {
-    if (this.registerForm.invalid) {
-      return;
-    }
-  
-    this.loading = await this.loadingController.create({
-      message: 'Registrando...',
-    });
-    await this.loading.present();
-  
+  async editarUser() {
     if (this.registerForm.valid) {
       const { username, email, password, fullName, birthDate } =
         this.registerForm.value;
-      const role = 'common_user';
-  
       try {
-        // Encriptar datos
-        const encryptedRole = this.encryptData(role);
         const encryptedPss = this.encryptData(password);
-  
-        // Llamar al servicio para registrar usuario
-        await this.authService.registerUser(
+        await this.authService.updateUser(
           username,
           email,
           encryptedPss,
           fullName,
-          encryptedRole,
-          birthDate
+          birthDate,
+          this.idUser
         );
-  
-        await this.loading.dismiss();
-  
-        const successAlert = await this.alertController.create({
-          header: 'Registro Exitoso',
-          message: 'Tu cuenta ha sido creada correctamente.',
-          buttons: ['OK'],
-        });
-  
-        await successAlert.present();
-        this.router.navigate(['/navbar/login']);
+
+        // Cerrar el modal solo si la actualización es exitosa
+        this.dismiss();
+        if (this.userRegistered) {
+          this.userRegistered(); // Ejecuta la función pasada desde el modal
+        }
       } catch (error) {
-        await this.loading.dismiss();
-  
-        console.error('Error al registrar:', error);
+        console.error('Error al actualizar el usuario:', error);
+
+        // Obtener el mensaje de error
         const errMsg =
-          (error as Error).message || 'Ocurrió un error inesperado';
-  
+          (error as Error).message || 'Ocurrió un error inesperado.';
+
+        // Mostrar alerta con el mensaje de error
         const errorAlert = await this.alertController.create({
-          header: 'Error en el registro',
+          header: 'Error en la actualización',
           message: errMsg,
           buttons: ['OK'],
         });
-  
+
         await errorAlert.present();
       }
     }
   }
-  
 
   private encryptData(data: string): string {
     return CryptoJS.AES.encrypt(data, this.secretKey).toString();

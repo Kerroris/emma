@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Agregar nuevo usuario
+    <ion-title>Editar usuario
       <ion-icon name="person-add-outline"></ion-icon>
     </ion-title>
     <ion-buttons slot="end">
@@ -10,14 +10,15 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <form [formGroup]="registerForm" (ngSubmit)="agregar()">
+  <form [formGroup]="registerForm" (ngSubmit)="editarUser()">
     <ion-grid>
       <ion-row>
         <!-- Primera columna -->
         <ion-col size-md="6" size="12">
           <ion-item>
             <ion-label position="floating">Correo Electrónico</ion-label>
-            <ion-input type="email" formControlName="email" required (ionInput)="removeSpaces('email')"></ion-input>
+            <ion-input [(ngModel)]="usuario.email" type="email" formControlName="email" required
+              (ionInput)="removeSpaces('email')"></ion-input>
           </ion-item>
           <p *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="danger_input">
             ❌ Correo no válido</p>
@@ -27,7 +28,7 @@
 
           <ion-item>
             <ion-label position="floating">Nombre Completo</ion-label>
-            <ion-input type="text" formControlName="fullName" required></ion-input>
+            <ion-input [(ngModel)]="usuario.fullName" type="text" formControlName="fullName" required></ion-input>
           </ion-item>
           <p *ngIf="registerForm.get('fullName')?.invalid && registerForm.get('fullName')?.touched"
             class="danger_input">
@@ -39,7 +40,7 @@
 
           <ion-item>
             <ion-label position="floating">Usuario</ion-label>
-            <ion-input type="text" formControlName="username" required
+            <ion-input [(ngModel)]="usuario.username" type="text" formControlName="username" required
               (ionInput)="removeSpaces('username')"></ion-input>
           </ion-item>
           <p *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched"
@@ -52,8 +53,8 @@
 
           <ion-item>
             <ion-label position="floating">Contraseña</ion-label>
-            <ion-input [type]="showPassword ? 'text' : 'password'" formControlName="password" required
-              (ionInput)="removeSpaces('password')">
+            <ion-input [(ngModel)]="contraDes" [type]="showPassword ? 'text' : 'password'" formControlName="password"
+              required (ionInput)="removeSpaces('password')">
             </ion-input>
             <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'" class="eye_btn"
               (click)="togglePasswordVisibility()">
@@ -69,8 +70,8 @@
 
           <ion-item>
             <ion-label position="floating">Confirmar Contraseña</ion-label>
-            <ion-input [type]="showPassword ? 'text' : 'password'" formControlName="confirmPassword" required
-              (ionInput)="removeSpaces('confirmPassword')">
+            <ion-input [(ngModel)]="contraDes" [type]="showPassword ? 'text' : 'password'"
+              formControlName="confirmPassword" required (ionInput)="removeSpaces('confirmPassword')">
             </ion-input>
           </ion-item>
 
@@ -93,8 +94,8 @@
           <ion-item>
             <ion-label position="floating">Fecha de Nacimiento</ion-label>
             <br>
-            <ion-datetime display-format="DD/MM/YYYY" formControlName="birthDate" required
-              (ionChange)="validateBirthDate()">
+            <ion-datetime [(ngModel)]="birthDateFormat" display-format="DD/MM/YYYY" formControlName="birthDate"
+              required (ionChange)="validateBirthDate()">
             </ion-datetime>
           </ion-item>
 
@@ -107,13 +108,14 @@
           </p>
         </ion-col>
 
+
       </ion-row>
     </ion-grid>
   </form>
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <form [formGroup]="registerForm" (ngSubmit)="agregar()">
+    <form [formGroup]="registerForm" (ngSubmit)="editarUser()">
       <button [disabled]="registerForm.invalid" class="btn_registro" type="submit">
         Registrar
         <ion-icon name="person-add-outline"></ion-icon>

@@ -1,13 +1,45 @@
-<ion-content >
-  <h1>Practica de clase Hello Word</h1>
+<ion-content>
 
-  <ion-button color="dark" (click)="mostrarTexto()">
-    Presioname 
-    <ion-icon name="logo-firefox"></ion-icon>
+  <h1>Hola, {{ fullName }}</h1>
+  <ion-button *ngIf="userRole === 'admin'" color="success" (click)="abrirModal()">
+    Agregar Usuario
+    <ion-icon name="person-add"></ion-icon>
   </ion-button>
-  <ion-grid *ngIf="texto">
-    <ion-card class="container_text_color">
-      "Hi, ¡Cervantes Yañez Hector!, well done!!."
-    </ion-card>
+
+  <!-- Tabla de usuarios -->
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <table class="user-table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Rol</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users">
+              <td>{{ user.fullName }}</td>
+              <td>{{ user.username }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.role }}</td>
+              <td>
+                <ion-button color="warning" (click)="editarUsuario(user.id)">
+                  Editar
+                  <ion-icon slot="end" name="create-outline"></ion-icon>
+                </ion-button>
+                <ion-button *ngIf="userRole === 'admin'" color="danger" (click)="eliminarUsuario(user.id)">
+                  Eliminar
+                  <ion-icon slot="end" name="trash-outline"></ion-icon>
+                </ion-button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </ion-col>
+    </ion-row>
   </ion-grid>
 </ion-content>

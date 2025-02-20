@@ -6,9 +6,78 @@ ion-content {
   margin-top: 20%;
 }
 
-.container_text_color {
-  background-color: rgba(132, 255, 0, 0.017);
-  padding: 30px;
-  border-radius: 1px solid rgba(132, 255, 0, 0.084);
-  margin: 0rem 20rem 0rem 20rem;
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.user-table th,
+.user-table td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+@media (max-width: 600px) {
+
+  .user-table th,
+  .user-table td {
+    padding: 4px;
+  }
+}
+
+ion-button {
+  margin: 4px;
+}
+
+@media (max-width: 768px) {
+
+  .user-table th,
+  .user-table td {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .user-table th,
+  .user-table td {
+    display: block;
+    text-align: right;
+  }
+
+  .user-table th {
+    display: none;
+  }
+
+  .user-table td {
+    text-align: left;
+    padding-left: 40%;
+    position: relative;
+  }
+
+  .user-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 10px;
+    font-weight: bold;
+  }
+
+}
+
+.btn_misDatos {
+  background-color: #dddddd00;
+  padding: 10px;
+  color: black;
+  margin-left: 30px;
+  margin-top: 0;
+  border-bottom: solid 1px #03030328;
+  &:hover{
+    border-bottom: solid 1px #0330288f;
+  }
 }

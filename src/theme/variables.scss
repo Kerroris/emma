@@ -53,6 +53,9 @@
   &:hover{
     background-color: rgba(6, 201, 129, 0.149);
   }
+  @media (max-width: 768px) {
+    top: 35px; 
+  }
 }
 
 .eye_btn{

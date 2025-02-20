@@ -1,6 +1,3 @@
-// -----
-// Cervantes Yañez Hector -IDGS08
-// -----
 import { Component, OnInit } from '@angular/core';
 import {
   ModalController,
@@ -8,8 +5,14 @@ import {
   LoadingController,
 } from '@ionic/angular';
 import { Router } from '@angular/router';
-// Modal componente de la parctica 2 de mostrar password y username en modal
 import { ModalComponent } from '../../components/modal/modal.component';
+import { AuthService } from '../../services/auth.service';
+
+import { Auth } from '@angular/fire/auth';
+
+interface Role {
+  [key: string]: string[]; // Permite propiedades dinámicas con arrays de strings
+}
 
 @Component({
   selector: 'app-login',
@@ -19,21 +22,21 @@ import { ModalComponent } from '../../components/modal/modal.component';
 })
 export class LoginPage implements OnInit {
   username: string = '';
-  showSplash: boolean = true; // visibilidad del splash screen
   password: string = '';
-  isValid: boolean = false; //Valida el password y username q sean correctos
+  showSplash: boolean = true;
+  isValid: boolean = false;
   showPassword: boolean = false;
 
   constructor(
     private modalController: ModalController,
     private alertController: AlertController,
     private loadingController: LoadingController,
-    private router: Router
+    private router: Router,
+    private authService: AuthService,
+    private auth: Auth
   ) {}
 
-  // -----
-  // Cervantes Yañez Hector -IDGS08
-  // -----
+  // ----- Inicialización -----
   async ngOnInit() {
     // Oculta el splash
     setTimeout(() => {
@@ -41,41 +44,68 @@ export class LoginPage implements OnInit {
     }, 3000);
   }
 
-  // Funcion q se ejecuta despues q el formulario este lleno
+  // --------------
+
   async login(event: Event) {
     event.preventDefault();
-
     this.showSplash = true;
-
-    setTimeout(() => {
+  
+    try {
+      await this.authService.login(
+        this.username,
+        this.password,
+        this.showError.bind(this),
+        this.presentLoginAlert.bind(this),
+        (value: boolean) => this.showSplash = value
+      );
+  
+      // Después de que login se complete, obtenemos el token del localStorage
+      const token = localStorage.getItem('jwtToken');
+      
+      if (token) {
+        window.location.href = '/navbar/datos';
+      } else {
+        this.showError('Error en el inicio de sesión');
+      }
+    } catch (error) {
+      console.error(error);
+      this.showError('Hubo un problema al iniciar sesión');
+    } finally {
       this.showSplash = false;
-      this.presentLoginAlert();
-      this.router.navigate(['/navbar/home']);
-    }, 3000);
+    }
   }
-  // Funcion para mostrar alerta
-  async presentLoginAlert() {
+
+  private showError(message: string) {
+    this.showSplash = false;
+    this.presentLoginAlert('Error', message);
+  }
+  // --------------
+
+  // Función para mostrar alerta
+  async presentLoginAlert(
+    header: string = 'Inicio Exitoso!',
+    message: string = 'Bienvenido...'
+  ) {
     const alert = await this.alertController.create({
-      header: 'Inicio Ecxitoso!',
-      message: `Bienvenido...`,
+      header,
+      message,
       buttons: ['OK'],
     });
     await alert.present();
   }
 
-  // Funcion para validar los imput
+  // Función para validar los inputs
   validateForm() {
-    this.username = this.username.toLowerCase().replace(/\s/g, '');
     this.password = this.password.replace(/\s/g, '');
     this.isValid = this.username.length > 0 && this.password.length > 0;
   }
 
-  // finción para mostrar constraseña y ocultar
+  // Función para mostrar/ocultar contraseña
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
 
-  // función para mostrar modal con mis credenciales
+  // Función para mostrar modal con mis credenciales
   async presentLoginModal() {
     const modal = await this.modalController.create({
       component: ModalComponent,
@@ -87,7 +117,7 @@ export class LoginPage implements OnInit {
     await modal.present();
   }
 
-  // Esto se ejecuta cada q navego sin recargar la pagina
+  // Esto se ejecuta cada vez que navego sin recargar la página
   async ionViewWillEnter() {
     // await this.presentLoading();
   }
@@ -95,7 +125,7 @@ export class LoginPage implements OnInit {
   async presentLoading() {
     const loading = await this.loadingController.create({
       message: 'Cargando...',
-      duration: 3000,
+      duration: 2000,
       spinner: 'crescent',
     });
     await loading.present();
