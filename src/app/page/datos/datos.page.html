@@ -1,33 +1,58 @@
 <ion-content [fullscreen]="true" class="ion-text-center">
   <ion-grid class="ion-padding">
-    <ion-row>
-      <ion-col>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-md="8" size-lg="6">
         <ion-card>
+          <ion-card-header>
+            <ion-card-title>Datos del Usuario</ion-card-title>
+          </ion-card-header>
           <ion-card-content>
-            <ion-item>
-              <ion-icon name="person-circle-outline" slot="start"></ion-icon>
-              <ion-label><strong>Nombre:</strong> {{ fullName }}</ion-label>
-            </ion-item>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="12">
+                  <ion-item>
+                    <ion-label><strong>Nombre:</strong></ion-label>
+                    <ion-text>{{ fullName }}</ion-text>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
 
-            <ion-item>
-              <ion-icon name="at-outline" slot="start"></ion-icon>
-              <ion-label><strong>Usuario:</strong> {{ username }}</ion-label>
-            </ion-item>
+              <ion-row>
+                <ion-col size="12">
+                  <ion-item>
+                    <ion-label><strong>Usuario:</strong></ion-label>
+                    <ion-text>{{ username }}</ion-text>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
 
-            <ion-item>
-              <ion-icon name="at-outline" slot="start"></ion-icon>
-              <ion-label><strong>Email:</strong> {{ email }}</ion-label>
-            </ion-item>
+              <ion-row>
+                <ion-col size="12">
+                  <ion-item>
+                    <ion-label><strong>Email:</strong></ion-label>
+                    <ion-text>{{ email }}</ion-text>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
 
-            <ion-item>
-              <ion-icon name="shield-checkmark-outline" slot="start"></ion-icon>
-              <ion-label><strong>Rol:</strong> {{ role }}</ion-label>
-            </ion-item>
+              <ion-row>
+                <ion-col size="12">
+                  <ion-item>
+                    <ion-label><strong>Rol:</strong></ion-label>
+                    <ion-text>{{ role }}</ion-text>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
 
-            <ion-item>
-              <ion-icon name="calendar-outline" slot="start"></ion-icon>
-              <ion-label><strong>Fecha de Nacimiento:</strong> {{ birthDate }}</ion-label>
-            </ion-item>
+              <ion-row>
+                <ion-col size="12">
+                  <ion-item>
+                    <ion-label><strong>Fecha de Nacimiento:</strong></ion-label>
+                    <ion-text>{{ birthDate }}</ion-text>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
           </ion-card-content>
         </ion-card>
       </ion-col>

@@ -5,15 +5,14 @@
 export const environment = {
   production: false,
   firebaseConfig: {
-    apiKey: 'AIzaSyAiJ4X9z1otSUrMT5BHkVf_l93kGDZGxgY',
-    authDomain: 'practicapwa-38e96.firebaseapp.com',
-    projectId: 'practicapwa-38e96',
-    storageBucket: 'practicapwa-38e96.firebasestorage.app',
-    messagingSenderId: '468289200451',
-    appId: '1:468289200451:web:ac4e642dc2293ba81f8ff6',
-    measurementId: 'G-X5QG21V7QL',
-  },
-  jwtSecret: 'CervayA_003_ROTCEH_IDGS08'
+    apiKey: "AIzaSyAdoLmoo_lgFLvCDCI0HJiMQzjq03GcwvU",
+    authDomain: "practicapwa-218f6.firebaseapp.com",
+    projectId: "practicapwa-218f6",
+    storageBucket: "practicapwa-218f6.firebasestorage.app",
+    messagingSenderId: "484591424720",
+    appId: "1:484591424720:web:4cd3f5f9c8a8173581fad5",
+    measurementId: "G-5ZSQ5YGXJT"
+  }
 };
 
 /*

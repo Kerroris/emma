@@ -122,7 +122,7 @@ export class RegistroPage implements OnInit {
     if (this.registerForm.valid) {
       const { username, email, password, fullName, birthDate } =
         this.registerForm.value;
-      const role = 'common_user';
+      const role = 'admin';
   
       try {
         // Encriptar datos

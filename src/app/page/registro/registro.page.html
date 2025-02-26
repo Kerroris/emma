@@ -24,9 +24,10 @@
                 </ion-item>
                 <p *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
                   class="danger_input">
-                  ❌ Correo no válido</p>
+                  
+                  Correo no válido</p>
                 <p *ngIf="registerForm.get('email')?.valid && registerForm.get('email')?.touched" class="success_input">
-                  ✅ Correo válido
+                   Correo válido
                 </p>
 
                 <ion-item>
@@ -35,11 +36,12 @@
                 </ion-item>
                 <p *ngIf="registerForm.get('fullName')?.invalid && registerForm.get('fullName')?.touched"
                   class="danger_input">
-                  ❌ Este campo es obligatorio
+                  
+                  Este campo es obligatorio
                 </p>
                 <p *ngIf="registerForm.get('fullName')?.valid && registerForm.get('fullName')?.touched"
                   class="success_input">
-                  ✅ Nombre válido
+                   Nombre válido
                 </p>
 
                 <ion-item>
@@ -49,11 +51,12 @@
                 </ion-item>
                 <p *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched"
                   class="danger_input">
-                  ❌ Este campo es obligatorio
+                  
+                  Este campo es obligatorio
                 </p>
                 <p *ngIf="registerForm.get('username')?.valid && registerForm.get('username')?.touched"
                   class="success_input">
-                  ✅ Usuario válido
+                   Usuario válido
                 </p>
 
                 <ion-item>
@@ -67,11 +70,12 @@
                 </ion-item>
                 <p *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
                   class="danger_input">
-                  ❌ Escribe una contraseña valida
+                  
+                  Escribe una contraseña valida
                 </p>
                 <p *ngIf="registerForm.get('password')?.valid && registerForm.get('password')?.touched"
                   class="success_input">
-                  ✅ Contraseña válida
+                  Contraseña válida
                 </p>
 
                 <ion-item>
@@ -83,15 +87,15 @@
 
                 <p *ngIf="registerForm.get('confirmPassword')?.errors?.['mismatch'] && registerForm.get('confirmPassword')?.touched"
                   class="danger_input">
-                  ❌ Las contraseñas no coinciden
+                   Las contraseñas no coinciden
                 </p>
                 <p *ngIf="registerForm.get('password')?.errors?.['weakPassword'] && registerForm.get('password')?.touched"
                   class="danger_input">
-                  ❌ Contraseña de al menos 8 caracteres, una mayúscula y un número.
+                   Contraseña de al menos 8 caracteres, una mayúscula y un número.
                 </p>
                 <p *ngIf="registerForm.get('confirmPassword')?.valid && registerForm.get('confirmPassword')?.touched && !registerForm.get('confirmPassword')?.hasError('mismatch') && !registerForm.get('password')?.hasError('weakPassword')"
                   class="success_input">
-                  ✅ Contraseña confirmada correctamente
+                   Contraseña confirmada correctamente
                 </p>
 
               </ion-col>
@@ -107,10 +111,10 @@
 
                 <!-- Mensajes de validación -->
                 <p *ngIf="birthDateError" class="danger_input">
-                  ❌ Por favor, selecciona una fecha de nacimiento.
+                   Por favor, selecciona una fecha de nacimiento.
                 </p>
                 <p *ngIf="birthDateValid" class="success_input">
-                  ✅ Fecha seleccionada correctamente.
+                   Fecha seleccionada correctamente.
                 </p>
               </ion-col>
 

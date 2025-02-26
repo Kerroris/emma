@@ -16,6 +16,7 @@ export class HomePage implements OnInit {
   userRole: string | null = null;
   currentUser: string | null = null;
   texto: boolean = false;
+  mensajeVisible: boolean = false;
   users: any[] = [];
   fullName: string | null = null;
 
@@ -52,6 +53,14 @@ export class HomePage implements OnInit {
       console.error('Error al cargar usuarios', error);
     }
   }
+
+  mostrarMensaje(){
+    this.mensajeVisible = true;
+    setTimeout(() => {
+      this.mensajeVisible = false;
+    }, 5000);
+  }
+
 
   // Mandar llamar el componente modal y enviamos una funcion para q sea ejecutada dede el componente
   async abrirModal() {

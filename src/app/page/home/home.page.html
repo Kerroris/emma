@@ -1,44 +1,76 @@
-<ion-content>
-
-  <h1>Hola, {{ fullName }}</h1>
-  <ion-button *ngIf="userRole === 'admin'" color="success" (click)="abrirModal()">
-    Agregar Usuario
-    <ion-icon name="person-add"></ion-icon>
-  </ion-button>
-
-  <!-- Tabla de usuarios -->
+<ion-content class="ion-padding">
   <ion-grid>
-    <ion-row>
-      <ion-col size="12">
-        <table class="user-table">
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Username</th>
-              <th>Email</th>
-              <th>Rol</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let user of users">
-              <td>{{ user.fullName }}</td>
-              <td>{{ user.username }}</td>
-              <td>{{ user.email }}</td>
-              <td>{{ user.role }}</td>
-              <td>
-                <ion-button color="warning" (click)="editarUsuario(user.id)">
-                  Editar
-                  <ion-icon slot="end" name="create-outline"></ion-icon>
-                </ion-button>
-                <ion-button *ngIf="userRole === 'admin'" color="danger" (click)="eliminarUsuario(user.id)">
-                  Eliminar
-                  <ion-icon slot="end" name="trash-outline"></ion-icon>
-                </ion-button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+
+    <!-- Botón para mostrar el mensaje -->
+    <ion-col size="12" class="ion-margin-top">
+      <ion-button class="ion-margin-top" zise="12" color="dark" expand="full" type="submit" (click)="mostrarMensaje()">Haz click 
+</ion-button>
+    </ion-col>
+    
+
+
+    <!-- Mensaje de bienvenida -->
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="12" class="ion-text-center">
+        <h1>Hola, {{ fullName }}</h1>
+      </ion-col>
+    </ion-row>
+    
+    
+    
+    <!-- Mensaje de bienvenida que aparece temporalmente -->
+    <ion-row class="ion-justify-content-center" *ngIf="mensajeVisible">
+      <ion-col size="12" class="ion-text-center">
+        <p class="mensaje-bienvenida">! Hello, Welcome to house ! {{ fullName }} !</p>
+      </ion-col>
+    </ion-row>
+    
+
+    <!-- Botón para agregar usuario (solo visible para admin) -->
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="12" class="ion-text-center">
+        <ion-button *ngIf="userRole === 'admin'" color="light" (click)="abrirModal()">
+          Agregar Usuario
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <!-- Tabla de usuarios -->
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-xs="12" size-md="10" size-lg="8">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Lista de Usuarios</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid>
+              <!-- Encabezados de tabla -->
+              <ion-row class="table-header">
+                <ion-col size="3"><strong>Nombre</strong></ion-col>
+                <ion-col size="2"><strong>Usuario</strong></ion-col>
+                <ion-col size="3"><strong>Correo</strong></ion-col>
+                <ion-col size="2"><strong>User</strong></ion-col>
+                <ion-col size="2"><strong>Update/Delate</strong></ion-col>
+              </ion-row>
+
+              <!-- Datos de los usuarios -->
+              <ion-row *ngFor="let user of users" class="table-row">
+                <ion-col size="3">{{ user.fullName }}</ion-col>
+                <ion-col size="2">{{ user.username }}</ion-col>
+                <ion-col size="3">{{ user.email }}</ion-col>
+                <ion-col size="2">{{ user.role }}</ion-col>
+                <ion-col size="2">
+                  <ion-button color="dark" fill="solid" size="small" (click)="editarUsuario(user.id)">
+                    Editar
+                  </ion-button>            
+                  <ion-button *ngIf="userRole === 'admin'" color="light"  fill="solid" size="small" (click)="eliminarUsuario(user.id)">
+                    Eliminar
+                  </ion-button>                  
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>
