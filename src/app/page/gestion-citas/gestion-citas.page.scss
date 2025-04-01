@@ -1,0 +1,40 @@
+ion-content {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+  
+  ion-card {
+    margin: 10px;
+  }
+  
+  ion-badge {
+    margin-right: 10px;
+  }
+  
+  ::ng-deep .markDisabled {
+    color: red !important;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+  
+  ion-calendar {
+    display: block !important;
+    min-height: 400px !important;
+    visibility: visible !important;
+    background-color: white !important;
+    color: black !important;
+  }
+  
+  
+  .calendar-light {
+    --background: white !important;
+    --color: black !important;
+  }
+  
+  
+  .calendar-custom::part(calendar-day-disabled) {
+    color: red !important;
+    text-decoration: line-through;
+  }
+  

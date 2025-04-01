@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Practica1</string>
-    <string name="title_activity_main">Practica1</string>
-    <string name="package_name">io.ionic.starter</string>
-    <string name="custom_url_scheme">io.ionic.starter</string>
+    <string name="app_name">SchoolSync</string>
+    <string name="title_activity_main">SchoolSync</string>
+    <string name="package_name">com.kerroris.ScholSync</string>
+    <string name="custom_url_scheme">com.kerroris.ScholSync</string>
 </resources>

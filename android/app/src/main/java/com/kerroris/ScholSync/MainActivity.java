@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package com.kerroris.ScholSync;
 
 import com.getcapacitor.BridgeActivity;
 

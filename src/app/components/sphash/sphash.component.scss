@@ -1,58 +1,28 @@
 .splash-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  height: 50vh; 
-  width: 100vw; 
-  background-color: rgba(255, 255, 255, 0.604); 
 }
 
-.logo {
-  width: 200px;
-  height: auto;
-  margin-bottom: 20px;
+.loading-container {
+  width: 300px;
+  height: 5px;
+  background-color: #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 10px;
+  position: relative;
 }
 
-.loading-dots {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
+.loading-bar {
+  width: 100%;
+  height: 100%;
+  background-color: #000000;
+  transform: translateX(-100%);
+  animation: load 3s linear forwards;
 }
 
-.loading-dots span {
-  width: 12px;
-  height: 12px;
-  background-color: rgba(6, 155, 201, 0.513);
-  border-radius: 50%;
-  animation: loadingAnimation 1.5s infinite;
-}
-
-.loading-dots span:nth-child(1) {
-  animation-delay: 0s;
-}
-
-.loading-dots span:nth-child(2) {
-  animation-delay: 0.3s;
-}
-
-.loading-dots span:nth-child(3) {
-  animation-delay: 0.6s;
-}
-
-@keyframes loadingAnimation {
-  0% {
-    opacity: 0.3;
-    transform: scale(1);
-  }
-
-  50% {
-    opacity: 1;
-    transform: scale(1.3);
-  }
-
-  100% {
-    opacity: 0.3;
-    transform: scale(1);
-  }
+@keyframes load {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(0); }
 }

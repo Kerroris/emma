@@ -1,11 +1,9 @@
-// ---- 
-// Autor: Cervantes Yañez Hector - IDGS08
-// ---- 
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { authGuard } from './auth/auth.guard'; 
 import { NoauthGuard } from './auth/noauth.guard'; 
-import { AdminGuard } from './auth/admin.guard'; 
+import { AdminGuard } from './auth/admin.guard';
+// import { HorariosPage } from './horarios.page'; 
 
 const routes: Routes = [
   {
@@ -14,7 +12,7 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    canActivate: [authGuard, AdminGuard],
+    canActivate: [NoauthGuard],
     path: 'home',
     loadChildren: () => import('./page/home/home.module').then( m => m.HomePageModule)
   },
@@ -33,10 +31,17 @@ const routes: Routes = [
     loadChildren: () => import('./page/registro/registro.module').then( m => m.RegistroPageModule)
   },
   {
-    canActivate: [authGuard],
+    canActivate: [NoauthGuard],
     path: 'datos',
     loadChildren: () => import('./page/datos/datos.module').then( m => m.DatosPageModule)
+  }
+  ,
+  
+  {
+    path: 'gestion-citas',
+    loadChildren: () => import('./page/gestion-citas/gestion-citas.module').then( m => m.GestionCitasPageModule)
   },
+
 
 ];
 

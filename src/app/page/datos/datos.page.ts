@@ -8,12 +8,15 @@ import { AuthService } from '../../services/auth.service';
   standalone: false,
 })
 export class DatosPage implements OnInit {
+logout() {
+throw new Error('Method not implemented.');
+}
   fullName: string | null = null;
   username: string | null = null;
   role: string | null = null;
   birthDate: string | null = null;
   email: string | null = null;
-
+  user : any = null;
   constructor(public authService: AuthService) {}
 
   ngOnInit() {
@@ -21,23 +24,15 @@ export class DatosPage implements OnInit {
   }
 
   private loadUserData() {
-    const token = localStorage.getItem('jwtToken');
+    this.user = localStorage.getItem('user');
+    const usuario = JSON.parse(this.user);
+    if (usuario) {
+        this.fullName = usuario.fullName || 'No disponible';
+        this.username = usuario.username || 'No disponible';
+        this.email = usuario.email || 'No disponible';
+        this.birthDate = usuario.birthDate || 'No disponible';
 
-    if (token) {
-      const decodedToken = this.authService.decodeJWT(token);
-      if (decodedToken) {
-        this.fullName = decodedToken.fullName || 'No disponible';
-        this.username = decodedToken.username || 'No disponible';
-        this.email = decodedToken.email || 'No disponible';
-        this.role = decodedToken.role || 'No disponible';
-
-        if (decodedToken.birthDate && decodedToken.birthDate.seconds) {
-          const birthDateObj = new Date(decodedToken.birthDate.seconds * 1000);
-          this.birthDate = birthDateObj.toLocaleDateString('es-MX'); 
-        } else {
-          this.birthDate = 'No disponible';
-        }
-      }
+            
       console.log(this.birthDate);
     }
   }

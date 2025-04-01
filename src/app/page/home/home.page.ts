@@ -11,8 +11,13 @@ import * as CryptoJS from 'crypto-js';
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: false,
+  
 })
 export class HomePage implements OnInit {
+  router: any;
+  
+
+
   userRole: string | null = null;
   currentUser: string | null = null;
   texto: boolean = false;

@@ -49,24 +49,36 @@ export class LoginPage implements OnInit {
   async login(event: Event) {
     event.preventDefault();
     this.showSplash = true;
-  
+
     try {
-      await this.authService.login(
-        this.username,
-        this.password,
-        this.showError.bind(this),
-        this.presentLoginAlert.bind(this),
-        (value: boolean) => this.showSplash = value
-      );
+      this.authService.loginService(this.username, this.password).subscribe({
+        next: async (response) => {
+          // Guardar datos en localStorage
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('user', JSON.stringify(response.user));        
+          const successAlert = await this.alertController.create({
+            header: 'Login Exitoso',
+            message: 'bienvenido',
+            buttons: ['OK'],
+          });  
+          this.router.navigate(['/navbar/datos']);
+        },
+        error: async (error) => {  
+          console.error('Error al registrar:', error);
+          const errMsg =
+            (error as Error).message || 'Ocurrió un error inesperado';
   
-      // Después de que login se complete, obtenemos el token del localStorage
-      const token = localStorage.getItem('jwtToken');
-      
-      if (token) {
-        window.location.href = '/navbar/datos';
-      } else {
-        this.showError('Error en el inicio de sesión');
-      }
+          const errorAlert = await this.alertController.create({
+            header: 'Error en el registro',
+            message: errMsg,
+            buttons: ['OK'],
+          });
+  
+          await errorAlert.present();
+        },
+      });
+
+        // window.location.href = '/navbar/datos';
     } catch (error) {
       console.error(error);
       this.showError('Hubo un problema al iniciar sesión');

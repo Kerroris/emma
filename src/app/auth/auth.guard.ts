@@ -10,7 +10,7 @@ export class authGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(): boolean {
-    const token = localStorage.getItem('jwtToken');
+    const token = localStorage.getItem('token');
     
     if (!token) {
       this.router.navigate(['/navbar/login']);

@@ -19,13 +19,16 @@ export class RegistroPage implements OnInit {
   private secretKey = 'MiClaveSecreta123';
   birthDateError: boolean = false;
   birthDateValid: boolean = false;
+  acceptedPolicies: boolean = false;
+
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private loadingController: LoadingController,
     private alertController: AlertController,
-    private authService: AuthService
+    private authService: AuthService,
+    
   ) {
     this.registerForm = this.formBuilder.group(
       {
@@ -109,6 +112,7 @@ export class RegistroPage implements OnInit {
     }
   }
 
+
   async register() {
     if (this.registerForm.invalid) {
       return;
@@ -120,54 +124,42 @@ export class RegistroPage implements OnInit {
     await this.loading.present();
   
     if (this.registerForm.valid) {
-      const { username, email, password, fullName, birthDate } =
-        this.registerForm.value;
-      const role = 'admin';
+      this.authService.register(this.registerForm.value).subscribe({
+        next: async (response) => {
+          // Guardar datos en localStorage
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('user', JSON.stringify(response.user));
   
-      try {
-        // Encriptar datos
-        const encryptedRole = this.encryptData(role);
-        const encryptedPss = this.encryptData(password);
+          await this.loading.dismiss();
   
-        // Llamar al servicio para registrar usuario
-        await this.authService.registerUser(
-          username,
-          email,
-          encryptedPss,
-          fullName,
-          encryptedRole,
-          birthDate
-        );
+          const successAlert = await this.alertController.create({
+            header: 'Registro Exitoso',
+            message: 'Tu cuenta ha sido creada correctamente.',
+            buttons: ['OK'],
+          });
   
-        await this.loading.dismiss();
+          await successAlert.present();
+          this.router.navigate(['/navbar/login']);
+        },
+        error: async (error) => {
+          await this.loading.dismiss();
   
-        const successAlert = await this.alertController.create({
-          header: 'Registro Exitoso',
-          message: 'Tu cuenta ha sido creada correctamente.',
-          buttons: ['OK'],
-        });
+          console.error('Error al registrar:', error);
+          const errMsg =
+            (error as Error).message || 'Ocurrió un error inesperado';
   
-        await successAlert.present();
-        this.router.navigate(['/navbar/login']);
-      } catch (error) {
-        await this.loading.dismiss();
+          const errorAlert = await this.alertController.create({
+            header: 'Error en el registro',
+            message: errMsg,
+            buttons: ['OK'],
+          });
   
-        console.error('Error al registrar:', error);
-        const errMsg =
-          (error as Error).message || 'Ocurrió un error inesperado';
-  
-        const errorAlert = await this.alertController.create({
-          header: 'Error en el registro',
-          message: errMsg,
-          buttons: ['OK'],
-        });
-  
-        await errorAlert.present();
-      }
+          await errorAlert.present();
+        },
+      });
     }
   }
   
-
   private encryptData(data: string): string {
     return CryptoJS.AES.encrypt(data, this.secretKey).toString();
   }

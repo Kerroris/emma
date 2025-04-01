@@ -36,6 +36,11 @@ const routes: Routes = [
         path: 'datos',
         loadChildren: () => import('../datos/datos.module').then( m => m.DatosPageModule)
       },
+      {
+        canActivate: [authGuard],
+        path: 'gestion-citas',
+        loadChildren: () => import('../gestion-citas/gestion-citas.module').then( m => m.GestionCitasPageModule)
+      },
     ],
   },
 ];

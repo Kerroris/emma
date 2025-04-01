@@ -39,14 +39,14 @@
   position: absolute;
   top: 0px;
   left: 10px;
-  background-color: rgba(6, 201, 129, 0.773);
+  background-color: rgba(0, 0, 0, 0.773);
   padding: 9px;
   font-size: 13px;
   border-radius: 8px;
   cursor: pointer;
 
   &:hover {
-    background-color: rgba(6, 201, 129, 0.149);
+    background-color: rgba(0, 0, 0, 0.488);
   }
 
   @media (max-width: 768px) {

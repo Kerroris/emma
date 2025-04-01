@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { initializeApp, getApps, getApp } from 'firebase/app';
+import { Observable, BehaviorSubject, throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { catchError, tap } from 'rxjs/operators';
 import { Timestamp } from 'firebase/firestore';
 import {
   getFirestore,
@@ -13,7 +16,6 @@ import {
   addDoc,
 } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-import { BehaviorSubject } from 'rxjs';
 import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
 
 import * as CryptoJS from 'crypto-js';
@@ -28,7 +30,7 @@ const auth = getAuth(app);
   providedIn: 'root',
 })
 export class AuthService {
-  
+
   private secretKey = 'MiClaveSecreta123';
 
   private currentUserIdSubject = new BehaviorSubject<string | null>(
@@ -45,7 +47,7 @@ export class AuthService {
   private autenticadoSubject = new BehaviorSubject<boolean>(this.checkToken());
   autenticado$ = this.autenticadoSubject.asObservable();
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private http: HttpClient) { }
 
   private checkRole(): string | null {
     const token = localStorage.getItem('jwtToken');
@@ -69,7 +71,7 @@ export class AuthService {
     }
   }
 
-  async login(
+  async loginenvio(
     username: string,
     password: string,
     showError: (msg: string) => void,
@@ -100,7 +102,7 @@ export class AuthService {
         userData['email'],
         userData['role'],
         userData['id'],
-        userData['birthDate'], 
+        userData['birthDate'],
       );
 
       localStorage.setItem('jwtToken', token); // Guarda el token en localStorage
@@ -241,46 +243,17 @@ export class AuthService {
     email: string,
     password: string,
     fullName: string,
-    roleRef: string,
     birthDate: string
   ) {
     try {
-      const usersCollection = collection(db, 'users');
-  
-      // Verificar si el username o el email ya existen
-      const usernameQuery = query(usersCollection, where('username', '==', username));
-      const emailQuery = query(usersCollection, where('email', '==', email));
-  
-      const [usernameSnapshot, emailSnapshot] = await Promise.all([
-        getDocs(usernameQuery),
-        getDocs(emailQuery),
-      ]);
-  
-      if (!usernameSnapshot.empty) {
-        throw new Error('El nombre de usuario ya está en uso.');
-      }
-  
-      if (!emailSnapshot.empty) {
-        throw new Error('El correo electrónico ya está registrado.');
-      }
-  
-      const newUser = {
-        username,
-        fullName,
-        email,
-        password,
-        role: roleRef,
-        birthDate: Timestamp.fromDate(new Date(birthDate)),
-      };
-  
-      await addDoc(usersCollection, newUser);
+
       console.log('Usuario registrado correctamente');
     } catch (error) {
       console.error('Error al registrar el usuario:', (error as Error).message);
-      throw error; 
+      throw error;
     }
   }
-  
+
   async updateUser(
     username: string,
     email: string,
@@ -291,24 +264,24 @@ export class AuthService {
   ) {
     try {
       const usersCollection = collection(db, "users");
-  
+
       // Consultar si el username o email ya están en uso por otro usuario
       const usernameQuery = query(usersCollection, where("username", "==", username), where("__name__", "!=", idUser));
       const emailQuery = query(usersCollection, where("email", "==", email), where("__name__", "!=", idUser));
-  
+
       const [usernameSnapshot, emailSnapshot] = await Promise.all([
         getDocs(usernameQuery),
         getDocs(emailQuery),
       ]);
-  
+
       if (!usernameSnapshot.empty) {
         throw new Error("El nombre de usuario ya está en uso por otro usuario.");
       }
-  
+
       if (!emailSnapshot.empty) {
         throw new Error("El correo electrónico ya está registrado por otro usuario.");
       }
-  
+
       // Si no hay conflictos, proceder con la actualización
       const userDocRef = doc(db, "users", idUser);
       const updatedUser = {
@@ -318,7 +291,7 @@ export class AuthService {
         password,
         birthDate: Timestamp.fromDate(new Date(birthDate)),
       };
-  
+
       await updateDoc(userDocRef, updatedUser);
       console.log("Usuario actualizado correctamente");
     } catch (error) {
@@ -326,6 +299,41 @@ export class AuthService {
       throw new Error("Error al actualizar el usuario: " + (error as Error).message);
     }
   }
+
+  register(data: any): Observable<any> {
+    return this.http.post(`${ environment.function_registro}`, data).pipe(
+      tap((response) => {
+        this.guardaStorage(response);
+      })
+    );
+  }
+
+
+
+  loginService(username:String, password:String): Observable<any> {
+    return this.http.post(`${environment.function_login}`, {username, password} ).pipe(
+      tap((response: any) => {
+        if (response?.token) {
+          this.guardaStorage(response);
+        } else {
+          console.warn('Login exitoso, pero sin token');
+        }
+      }),
+      catchError((error) => {
+        console.error('Error en el login:', error);
+        return throwError(() => new Error('Credenciales incorrectas'));
+      })
+    );
+  }
+  
+
+  guardaStorage(response: any) {
+    localStorage.setItem('token', response.token);
+    localStorage.setItem('user', JSON.stringify(response.user));
+    console.log(response)
+  }
+
+
 
   private decryptData(encryptedRole: string): string {
     const bytes = CryptoJS.AES.decrypt(encryptedRole, this.secretKey);

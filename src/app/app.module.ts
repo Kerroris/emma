@@ -5,6 +5,8 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+// Mandamos llamar la navbar para llamasla 
+import { NavbarComponent } from '../app/components/navbar/navbar.component';
 
 // Firebase
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
@@ -19,6 +21,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
+    NavbarComponent,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000'

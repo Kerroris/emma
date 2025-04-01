@@ -131,9 +131,8 @@ export class ModalComponent {
         await this.authService.registerUser(
           username,
           email,
-          encryptedPss,
+          password,
           fullName,
-          encryptedRole,
           birthDate
         );
         this.dismiss();

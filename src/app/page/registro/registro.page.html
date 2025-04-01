@@ -3,8 +3,7 @@
     <ion-card>
       <ion-card-header>
         <ion-card-title>
-          <ion-a style="color: #000000;" [routerLink]="'/navbar/login'" class="regresar_btn" type="button">
-            <ion-icon name="arrow-back-outline"></ion-icon>
+          <ion-a style="color: #ffffff;" [routerLink]="'/navbar/login'" class="regresar_btn" type="button">
             regresar
           </ion-a>
           Registro de Usuario
@@ -18,110 +17,99 @@
               <!-- Primera columna -->
               <ion-col size-md="6" size="12">
                 <ion-item>
-                  <ion-label position="floating">Correo Electrónico</ion-label>
-                  <ion-input type="email" formControlName="email" required
-                    (ionInput)="removeSpaces('email')"></ion-input>
+                  <ion-label position="floating">Correo Electrónico</ion-label><br>
+                  <ion-input type="email" formControlName="email" required (ionInput)="removeSpaces('email')"></ion-input>
                 </ion-item>
-                <p *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
-                  class="danger_input">
-                  
-                  Correo no válido</p>
+                <p *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="danger_input">
+                  Correo no válido
+                </p>
                 <p *ngIf="registerForm.get('email')?.valid && registerForm.get('email')?.touched" class="success_input">
-                   Correo válido
+                  Correo válido
                 </p>
 
                 <ion-item>
-                  <ion-label position="floating">Nombre Completo</ion-label>
+                  <ion-label position="floating">Nombre Completo</ion-label><br>
                   <ion-input type="text" formControlName="fullName" required></ion-input>
                 </ion-item>
-                <p *ngIf="registerForm.get('fullName')?.invalid && registerForm.get('fullName')?.touched"
-                  class="danger_input">
-                  
+                <p *ngIf="registerForm.get('fullName')?.invalid && registerForm.get('fullName')?.touched" class="danger_input">
                   Este campo es obligatorio
                 </p>
-                <p *ngIf="registerForm.get('fullName')?.valid && registerForm.get('fullName')?.touched"
-                  class="success_input">
-                   Nombre válido
+                <p *ngIf="registerForm.get('fullName')?.valid && registerForm.get('fullName')?.touched" class="success_input">
+                  Nombre válido
                 </p>
 
                 <ion-item>
-                  <ion-label position="floating">Usuario</ion-label>
-                  <ion-input type="text" formControlName="username" required
-                    (ionInput)="removeSpaces('username')"></ion-input>
+                  <ion-label position="floating">Usuario</ion-label><br>
+                  <ion-input type="text" formControlName="username" required (ionInput)="removeSpaces('username')"></ion-input>
                 </ion-item>
-                <p *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched"
-                  class="danger_input">
-                  
+                <p *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched" class="danger_input">
                   Este campo es obligatorio
                 </p>
-                <p *ngIf="registerForm.get('username')?.valid && registerForm.get('username')?.touched"
-                  class="success_input">
-                   Usuario válido
+                <p *ngIf="registerForm.get('username')?.valid && registerForm.get('username')?.touched" class="success_input">
+                  Usuario válido
                 </p>
 
                 <ion-item>
-                  <ion-label position="floating">Contraseña</ion-label>
-                  <ion-input [type]="showPassword ? 'text' : 'password'" formControlName="password" required
-                    (ionInput)="removeSpaces('password')">
+                  <ion-label position="floating">Contraseña</ion-label><br>
+                  <ion-input [type]="showPassword ? 'text' : 'password'" formControlName="password" required (ionInput)="removeSpaces('password')">
                   </ion-input>
-                  <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'" class="eye_btn"
-                    (click)="togglePasswordVisibility()">
+                  <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'" class="eye_btn" (click)="togglePasswordVisibility()">
                   </ion-icon>
                 </ion-item>
-                <p *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
-                  class="danger_input">
-                  
-                  Escribe una contraseña valida
+                <p *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="danger_input">
+                  Escribe una contraseña válida
                 </p>
-                <p *ngIf="registerForm.get('password')?.valid && registerForm.get('password')?.touched"
-                  class="success_input">
+                <p *ngIf="registerForm.get('password')?.valid && registerForm.get('password')?.touched" class="success_input">
                   Contraseña válida
                 </p>
 
                 <ion-item>
-                  <ion-label position="floating">Confirmar Contraseña</ion-label>
-                  <ion-input [type]="showPassword ? 'text' : 'password'" formControlName="confirmPassword" required
-                    (ionInput)="removeSpaces('confirmPassword')">
+                  <ion-label position="floating">Confirmar Contraseña</ion-label><br>
+                  <ion-input [type]="showPassword ? 'text' : 'password'" formControlName="confirmPassword" required (ionInput)="removeSpaces('confirmPassword')">
                   </ion-input>
                 </ion-item>
 
-                <p *ngIf="registerForm.get('confirmPassword')?.errors?.['mismatch'] && registerForm.get('confirmPassword')?.touched"
-                  class="danger_input">
-                   Las contraseñas no coinciden
+                <p *ngIf="registerForm.get('confirmPassword')?.errors?.['mismatch'] && registerForm.get('confirmPassword')?.touched" class="danger_input">
+                  Las contraseñas no coinciden
                 </p>
-                <p *ngIf="registerForm.get('password')?.errors?.['weakPassword'] && registerForm.get('password')?.touched"
-                  class="danger_input">
-                   Contraseña de al menos 8 caracteres, una mayúscula y un número.
+                <p *ngIf="registerForm.get('confirmPassword')?.valid && registerForm.get('confirmPassword')?.touched && !registerForm.get('confirmPassword')?.hasError('mismatch')" class="success_input">
+                  Contraseña confirmada correctamente
                 </p>
-                <p *ngIf="registerForm.get('confirmPassword')?.valid && registerForm.get('confirmPassword')?.touched && !registerForm.get('confirmPassword')?.hasError('mismatch') && !registerForm.get('password')?.hasError('weakPassword')"
-                  class="success_input">
-                   Contraseña confirmada correctamente
-                </p>
-
               </ion-col>
+
               <!-- Segunda columna -->
               <ion-col size-md="6" size="12">
                 <ion-item>
                   <ion-label position="floating">Fecha de Nacimiento</ion-label>
-                  <br>
-                  <ion-datetime display-format="DD/MM/YYYY" formControlName="birthDate" required
-                    (ionChange)="validateBirthDate()">
+                  <br> <br>
+                  <ion-datetime display-format="DD/MM/YYYY" formControlName="birthDate" required (ionChange)="validateBirthDate()">
                   </ion-datetime>
                 </ion-item>
-
-                <!-- Mensajes de validación -->
                 <p *ngIf="birthDateError" class="danger_input">
-                   Por favor, selecciona una fecha de nacimiento.
+                  Por favor, selecciona una fecha de nacimiento.
                 </p>
                 <p *ngIf="birthDateValid" class="success_input">
-                   Fecha seleccionada correctamente.
+                  Fecha seleccionada correctamente.
                 </p>
               </ion-col>
-
             </ion-row>
           </ion-grid>
 
           <br>
+
+          <!-- Checkbox de aceptación de políticas -->
+          <ion-item lines="none">
+            <ion-label>
+              He leído y acepto las 
+              <a href="https://astounding-axolotl-ae2371.netlify.app" target="_blank">Políticas de privacidad</a>
+            </ion-label><ion-checkbox [(ngModel)]="acceptedPolicies" formControlName="acceptedPolicies"></ion-checkbox>
+          </ion-item>
+          <p *ngIf="!acceptedPolicies && registerForm.touched" class="danger_input">
+            Debes aceptar las políticas antes de registrarte.
+          </p>
+
+          <br>
+
           <button [disabled]="registerForm.invalid" class="btn_registro" type="submit">
             Registrar
             <ion-icon name="person-add-outline"></ion-icon>

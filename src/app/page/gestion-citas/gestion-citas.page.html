@@ -1,0 +1,97 @@
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Gestión de Horario</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Selección de usuario -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Selecciona tu Perfil</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label>Tipo de Usuario</ion-label>
+        <ion-select [(ngModel)]="tipoUsuario">
+          <ion-select-option value="alumno">Alumno</ion-select-option>
+          <ion-select-option value="profesor">Profesor</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Selección de fecha -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Selecciona un Día</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-datetime
+          presentation="date"
+          [(ngModel)]="fechaSeleccionada"
+          (ionChange)="seleccionarFecha($event)">
+        </ion-datetime>
+      </ion-item>
+      <p>Día seleccionado: {{ fechaSeleccionada }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Selección de horario -->
+  <ion-card *ngIf="fechaSeleccionada">
+    <ion-card-header>
+      <ion-card-title>Selecciona un Horario</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label>Hora</ion-label>
+        <ion-select [(ngModel)]="horaSeleccionada">
+          <ion-select-option *ngFor="let hora of horariosDisponibles" [value]="hora">
+            {{ hora }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <p>Hora seleccionada: {{ horaSeleccionada }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Selección de materia/asignatura -->
+  <ion-card *ngIf="horaSeleccionada">
+    <ion-card-header>
+      <ion-card-title>Selecciona tu Materia</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label>Materia</ion-label>
+        <ion-select [(ngModel)]="materiaSeleccionada">
+          <ion-select-option *ngFor="let materia of materiasDisponibles" [value]="materia">
+            {{ materia }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Botón para guardar horario -->
+  <ion-button expand="full" color="success" (click)="guardarHorario()" *ngIf="materiaSeleccionada">
+    Guardar Horario
+  </ion-button>
+
+  <!-- Lista de horarios guardados -->
+  <ion-card *ngIf="horariosGuardados.length > 0">
+    <ion-card-header>
+      <ion-card-title>Horarios Guardados</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let horario of horariosGuardados">
+          <ion-label>
+            <h2>{{ horario.fecha }} - {{ horario.hora }}</h2>
+            <p>{{ horario.materia }} ({{ horario.tipoUsuario }})</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
